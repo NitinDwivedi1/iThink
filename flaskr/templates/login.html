@@ -1,0 +1,32 @@
+{% extends "MainLayout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block button %}
+    <button onclick=window.location.href="{{url_for('register')}}" class="btn btn-raised" >Register</button>
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .loginForm label{
+        color:black;
+    }
+</style>
+
+<div class="loginForm">
+    <h1 style="text-align:center">Welcome!</h1>
+    <h5 style="text-align:center">Please log in</h5>
+    {% with messages = get_flashed_messages(category_filter=['error']) %}
+        {% for message in messages %}
+            <li class="alert alert-danger" style="text-align:center;list-style-type:none">{{ message }}</li>
+        {% endfor %}
+    {% endwith %}
+    <form class="form-signin" method="post" action="/login" style="width:50%;margin:auto">
+        {{ form.hidden_tag() }}
+        {{ wtf.form_field(form.username) }}
+        {{ wtf.form_field(form.password) }}
+        <button class="btn btn-raised" type="submit" style="background-color:skyblue;color:black">Login</button>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "MainLayout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block button %}
+    <button onclick=window.location.href="{{url_for('login')}}" class="btn btn-raised" >Login</button>
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .registerForm label{
+        color:black;
+    }
+</style>
+
+<div class="registerForm" >
+    <h1 style="text-align:center">Welcome!</h1>
+    <form method="post" action="/register" style="width:50%;margin:auto">
+        {{ form.hidden_tag() }}
+
+        {{ wtf.form_field(form.fullname) }}
+        {% for err in form.fullname.errors %}
+            <li style="color:red;font-style:italic;font-size:12px;list-style-type:none">{{err}}</li>
+        {% endfor %}
+
+        {{ wtf.form_field(form.email) }}
+        {% for err in form.email.errors %}
+            <li style="color:red;font-style:italic;font-size:12px;list-style-type:none">{{err}}</li>
+        {% endfor %}
+
+        {{ wtf.form_field(form.dob) }}
+
+        {{ wtf.form_field(form.profession) }}
+        {% for err in form.profession.errors %}
+            <li style="color:red;font-style:italic;font-size:12px;list-style-type:none">{{err}}</li>
+        {% endfor %}
+
+        {{ wtf.form_field(form.username) }}
+        {% for err in form.username.errors %}
+            <li style="color:red;font-style:italic;font-size:12px;list-style-type:none">{{err}}</li>
+        {% endfor %}
+
+        {{ wtf.form_field(form.password) }}
+        {% for err in form.password.errors %}
+            <li style="color:red;font-style:italic;font-size:12px;list-style-type:none">{{err}}</li>
+        {% endfor %}
+
+        {{ wtf.form_field(form.confirmPassword) }}
+        {% for err in form.confirmPassword.errors %}
+            <li style="color:red;font-style:italic;font-size:12px;list-style-type:none">{{err}}</li>
+        {% endfor %}
+        <button class="btn btn-raised" type="submit" style="background-color:skyblue;color:black">Register</button>
+    </form>
+</div>
+
+{% endblock %}

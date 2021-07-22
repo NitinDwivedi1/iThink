@@ -1,0 +1,64 @@
+{% extends "MainLayout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block post %}
+
+<div class='blogPostContainer'>
+    {% for data in posts %}
+        <div>
+            <div class='blogHeader'>
+                <span class='blogCategory'>{{data[0]}}</span>
+                <h1 class='postTitle'>{{data[1]}}</h1>
+                <span class='postedBy'>posted on {{data[3]}} by {{data[4]}}</span>
+            </div>
+            <div class='postContent'>
+                <p>{{data[2]}}</p>
+            </div>
+        </div>
+        <hr style="height:2px;color:gray;background-color:gray">
+
+        <button onclick="window.location.href='/{{data[5]}}'">Comments</button>
+        {%if data[5]|int==pid|int%}
+            {% for cmnt in cmnts %}
+                {% if data[5]==cmnt[3] %}
+                    <p><strong style="font-size:18px">{{cmnt[2]}}:- </strong>{{cmnt[0]}}<br><small>{{cmnt[1]}}</small></p><hr>
+                {% endif %}
+            {% endfor %}
+            <form method="post" action="/{{data[5]}}">
+                {{ form.hidden_tag() }}
+                {{ wtf.form_field(form.comment) }}
+                <button class="btn" style="background-color:skyBlue">Post</button>
+            </form>
+
+        {%endif%}
+        
+        <hr>
+    {% endfor %}
+</div>
+
+{% endblock post%}
+
+{% block recent %}
+
+<div class='sideBarContainer'>
+        <div style="margin-bottom:20px, padding:20px, boxSizing:border-box">
+            <div class='sidebarHeader'>
+                <span>Developed by</span>
+            </div>
+
+              <div class="text-center">
+                  <p class="text-center" style="font-family: 'Roboto Mono', monospace;"><strong style="font-weight:bold"><a href="https://nitindwivedi1.github.io/" style="color:inherit">Nitin Dwivedi</a></strong></p>
+                    <div class="text-center">
+                      <ul class="list-unstyled list-inline">
+                        <li class="list-inline-item"><a style="color:inherit" href="https://nitindwivedi1.github.io/" class="btn-floating btn-lg"><i class="mdi mdi-account-box"></i></a></li>
+                        <li class="list-inline-item"><a style="color:inherit" href="https://github.com/NitinDwivedi1" class="btn-floating btn-lg"><i class="mdi mdi-github-box"></i></a></li>
+                        <li class="list-inline-item"><a style="color:inherit" href="https://www.linkedin.com/in/nitin-dwivedi-834972192/" class="btn-floating btn-lg"><i class="mdi mdi-linkedin-box"></i></a></li>
+                        <li class="list-inline-item"><a style="color:inherit" href="https://www.instagram.com/nitin_one_and_only/" class="btn-floating btn-lg"><i class="mdi mdi-instagram"></i></a></li>
+                        <li class="list-inline-item"><a style="color:inherit" href="https://twitter.com/NitinDw46454591" class="btn-floating btn-lg"><i class="mdi mdi-twitter-box"></i></a></li>
+                      </ul>
+                    </div>
+              </div>
+
+        </div>
+</div>
+
+{% endblock recent%}

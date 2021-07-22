@@ -1,0 +1,16 @@
+{% extends "MainLayout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+<style>
+    .postForm label{
+        color:black;
+    }
+</style>
+<form class="postForm" method="post" action="/post" style="color:black">
+    {{ form.hidden_tag() }}
+    {{ wtf.form_field(form.PostCategory) }}
+    {{ wtf.form_field(form.title) }}
+    {{ wtf.form_field(form.content, cols="35", rows="5") }}
+    <button class="btn btn-raised" type="submit" style="background-color:skyblue;color:black">Post</button>
+</form>
+{% endblock %}

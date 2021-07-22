@@ -1,0 +1,45 @@
+{% extends "MainLayout.html" %}
+{% block content %}
+<table class="table">
+    <tr>
+        <td>Name:</td>
+        <td>{{fullname}}</td>
+    </tr>
+    <tr>
+        <td>Email address:</td>
+        <td>{{email}}</td>
+    </tr>
+    <tr>
+        <td>DOB:</td>
+        <td>{{dob}}</td>
+    </tr>
+    <tr>
+        <td>Profession:</td>
+        <td>{{profession}}</td>
+    </tr>
+    <tr>
+        <td>Username:</td>
+        <td>{{username}}</td>
+    </tr>
+</table>
+<button onclick="window.location.href='{{url_for('editInfo')}}';" class="btn" style="background-color:skyBlue">Edit</button>
+
+<h3 style="text-align:center">Your Posts</h3>
+<hr>
+<div class='blogPostContainer' style="background-color:white;padding:10px;margin-bottom:15px">
+{% for data in posts %}
+    <div class='blogHeader'>
+        <span class='blogCategory'>{{data[0]}}</span>
+        <h1 class='postTitle'>{{data[1]}}</h1>
+        <span class='postedBy'>posted on {{data[4]}}</span>
+    </div>
+    <div class='postContent'>
+        <p>{{data[2]}}</p>
+    </div>
+    <div style="justify-content:center;display:flex">
+        <button onclick="window.location.href='{{url_for('.deletePost',did=data[3])}}'" class="btn btn raised" style="background-color:skyBlue;color:black">Delete</button>
+    </div>
+    <hr>
+{% endfor %}
+</div>
+{% endblock %}
