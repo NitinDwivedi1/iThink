@@ -1,6 +1,9 @@
 {% extends "MainLayout.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
 {% block post %}
+
+{% if not posts %}
+    <h3>Nobody posted yet!</h3>
+{% endif %}
 
 <div class='blogPostContainer'>
     {% for data in posts %}
@@ -24,13 +27,15 @@
                 {% endif %}
             {% endfor %}
             <form method="post" action="/{{data[5]}}">
-                {{ form.hidden_tag() }}
-                {{ wtf.form_field(form.comment) }}
-                <button class="btn" style="background-color:skyBlue">Post</button>
+                <div class="form-group">
+                    {{ form.hidden_tag() }}
+                    {{ form.comment.label }}: {{ form.comment(class_="form-control") }}
+                    <button class="btn" style="background-color:skyBlue">Post</button>
+                </div>
             </form>
 
         {%endif%}
-        
+
         <hr>
     {% endfor %}
 </div>

@@ -1,26 +1,27 @@
 {% extends "MainLayout.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
 {% block content %}
     <form method="post" action="/edit" style="width:50%;margin:auto">
-        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.hidden_tag() }}
 
-        {{ wtf.form_field(form.fullname,value=current_user.fullname) }}
-        {% for err in form.fullname.errors %}
-            <li style="color:red;font-style:italic;font-size:12px;list-style-type:none">{{err}}</li>
-        {% endfor %}
+            {{ form.fullname.label }}: {{ form.fullname(class_="form-control",value=current_user.fullname) }}<br>
+            {% for err in form.fullname.errors %}
+                <li style="color:red;font-style:italic;font-size:12px;list-style-type:none">{{err}}</li>
+            {% endfor %}
 
-        {{ wtf.form_field(form.email,value=current_user.email) }}
-        {% for err in form.email.errors %}
-            <li style="color:red;font-style:italic;font-size:12px;list-style-type:none">{{err}}</li>
-        {% endfor %}
+            {{ form.email.label }}: {{ form.email(class_="form-control",value=current_user.email) }}<br>
+            {% for err in form.email.errors %}
+                <li style="color:red;font-style:italic;font-size:12px;list-style-type:none">{{err}}</li>
+            {% endfor %}
 
-        {{ wtf.form_field(form.dob,value=current_user.dob) }}
+            {{ form.dob.label }}: {{ form.dob(class_="form-control",value=current_user.dob) }}<br>
 
-        {{ wtf.form_field(form.profession,value=current_user.profession) }}
-        {% for err in form.profession.errors %}
-            <li style="color:red;font-style:italic;font-size:12px;list-style-type:none">{{err}}</li>
-        {% endfor %}
-        <button class="btn btn-raised" type="submit" style="background-color:skyblue;color:black">Update</button>
+            {{ form.profession.label }}: {{ form.profession(class_="form-control",value=current_user.profession) }}<br>
+            {% for err in form.profession.errors %}
+                <li style="color:red;font-style:italic;font-size:12px;list-style-type:none">{{err}}</li>
+            {% endfor %}
+            <button class="btn btn-raised" type="submit" style="background-color:skyblue;color:black">Update</button>
+        </div>
     </form>
 
 {% endblock %}

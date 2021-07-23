@@ -1,5 +1,4 @@
 {% extends "MainLayout.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
 
 {% block button %}
     <button onclick=window.location.href="{{url_for('register')}}" class="btn btn-raised" >Register</button>
@@ -22,10 +21,12 @@
         {% endfor %}
     {% endwith %}
     <form class="form-signin" method="post" action="/login" style="width:50%;margin:auto">
-        {{ form.hidden_tag() }}
-        {{ wtf.form_field(form.username) }}
-        {{ wtf.form_field(form.password) }}
+        <div class="form-group">
+            {{ form.hidden_tag() }}
+            {{ form.username.label }}: {{ form.username(class_="form-control") }}<br>
+            {{ form.password.label }}: {{ form.password(class_="form-control") }}<br>
         <button class="btn btn-raised" type="submit" style="background-color:skyblue;color:black">Login</button>
+        </div>
     </form>
 </div>
 

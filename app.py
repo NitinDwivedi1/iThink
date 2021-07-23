@@ -1,5 +1,4 @@
 from flask import Flask, render_template,request,redirect,url_for, flash
-from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import PasswordField, validators, StringField, SelectField, TextAreaField, SubmitField, widgets
 from wtforms.validators import InputRequired, Email, Length, ValidationError, EqualTo
@@ -21,7 +20,6 @@ app = Flask(__name__)
 app.secret_key=os.urandom(16)
 app.config['SQLALCHEMY_DATABASE_URI']= "sqlite:///"+file_path
 engine=create_engine("sqlite:///"+file_path)
-Bootstrap(app)
 db=SQLAlchemy(app)
 login_manager=LoginManager()
 login_manager.init_app(app)
