@@ -18,37 +18,44 @@
         <div class="form-group">
             {{ form.hidden_tag() }}
 
-            {{ form.fullname.label }}: {{ form.fullname(class_="form-control") }}<br>
+            {{ form.fullname.label }}: {{ form.fullname(class_="form-control") }}
             {% for err in form.fullname.errors %}
                 <li style="color:red;font-style:italic;font-size:12px;list-style-type:none">{{err}}</li>
             {% endfor %}
+            <br>
 
-            {{ form.email.label }}: {{ form.email(class_="form-control") }}<br>
+            {{ form.email.label }}: {{ form.email(class_="form-control") }}
             {% for err in form.email.errors %}
                 <li style="color:red;font-style:italic;font-size:12px;list-style-type:none">{{err}}</li>
             {% endfor %}
+            <br>
 
-            {{ form.dob.label }}: {{ form.dob(class_="form-control") }}<br>
+            {{ form.dob.label }}: {{ form.dob(class_="form-control") }}
+            <br>
 
-            {{ form.profession.label }}: {{ form.profession(class_="form-control") }}<br>
+            {{ form.profession.label }}: {{ form.profession(class_="form-control") }}
             {% for err in form.profession.errors %}
                 <li style="color:red;font-style:italic;font-size:12px;list-style-type:none">{{err}}</li>
             {% endfor %}
+            <br>
 
-            {{ form.username.label }}: {{ form.username(class_="form-control") }}<br>
+            {{ form.username.label }}: {{ form.username(class_="form-control") }}
             {% for err in form.username.errors %}
                 <li style="color:red;font-style:italic;font-size:12px;list-style-type:none">{{err}}</li>
             {% endfor %}
+            <br>
 
-            {{ form.password.label }}: {{ form.password(class_="form-control") }}<br>
+            {{ form.password.label }}: {{ form.password(class_="form-control") }}
             {% for err in form.password.errors %}
                 <li style="color:red;font-style:italic;font-size:12px;list-style-type:none">{{err}}</li>
             {% endfor %}
+            <br>
 
-            {{ form.confirmPassword.label }}: {{ form.confirmPassword(class_="form-control") }}<br>
+            {{ form.confirmPassword.label }}: {{ form.confirmPassword(class_="form-control") }}
             {% for err in form.confirmPassword.errors %}
                 <li style="color:red;font-style:italic;font-size:12px;list-style-type:none">{{err}}</li>
             {% endfor %}
+            <br>
             <button class="btn btn-raised" type="submit" style="background-color:skyblue;color:black">Register</button>
         </div>
     </form>

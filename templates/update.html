@@ -4,22 +4,26 @@
         <div class="form-group">
             {{ form.hidden_tag() }}
 
-            {{ form.fullname.label }}: {{ form.fullname(class_="form-control",value=current_user.fullname) }}<br>
+            {{ form.fullname.label }}: {{ form.fullname(class_="form-control",value=current_user.fullname) }}
             {% for err in form.fullname.errors %}
                 <li style="color:red;font-style:italic;font-size:12px;list-style-type:none">{{err}}</li>
             {% endfor %}
+            <br>
 
-            {{ form.email.label }}: {{ form.email(class_="form-control",value=current_user.email) }}<br>
+            {{ form.email.label }}: {{ form.email(class_="form-control",value=current_user.email) }}
             {% for err in form.email.errors %}
                 <li style="color:red;font-style:italic;font-size:12px;list-style-type:none">{{err}}</li>
             {% endfor %}
+            <br>
 
-            {{ form.dob.label }}: {{ form.dob(class_="form-control",value=current_user.dob) }}<br>
+            {{ form.dob.label }}: {{ form.dob(class_="form-control",value=current_user.dob) }}
+            <br>
 
-            {{ form.profession.label }}: {{ form.profession(class_="form-control",value=current_user.profession) }}<br>
+            {{ form.profession.label }}: {{ form.profession(class_="form-control",value=current_user.profession) }}
             {% for err in form.profession.errors %}
                 <li style="color:red;font-style:italic;font-size:12px;list-style-type:none">{{err}}</li>
             {% endfor %}
+            <br>
             <button class="btn btn-raised" type="submit" style="background-color:skyblue;color:black">Update</button>
         </div>
     </form>

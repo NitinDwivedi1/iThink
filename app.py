@@ -18,7 +18,6 @@ IST = pytz.timezone('Asia/Kolkata')
 app = Flask(__name__)
 app.config['SECRET_KEY']=os.urandom(16)
 app.config['SQLALCHEMY_DATABASE_URI']= os.environ.get('DATABASE_URL')
-engine=create_engine(os.environ.get('DATABASE_URL'))
 db=SQLAlchemy(app)
 login_manager=LoginManager()
 login_manager.init_app(app)
@@ -186,10 +185,7 @@ def post():
 def editInfo():
     form=UpdateForm()
     if form.validate_on_submit():
-        conn = engine.connect()
-        stmt= update(User).values(email=(form.email.data)).where(User.id==current_user.id)
-        conn.execute(stmt)
-
+        db.session.execute('update user set email=:val1 where id=:val2',{'val1':form.email.data,'val2':current_user.id})
         db.session.commit()
         flash("Profile updated!", category='success')
         return redirect(url_for('profile'))
