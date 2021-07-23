@@ -13,13 +13,12 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, login_
 import os
 import pytz
 
-file_path = os.path.abspath(os.getcwd())+"\database.db"
 IST = pytz.timezone('Asia/Kolkata')
 
 app = Flask(__name__)
 app.config['SECRET_KEY']=os.urandom(16)
-app.config['SQLALCHEMY_DATABASE_URI']= "sqlite:///"+file_path
-engine=create_engine("sqlite:///"+file_path)
+app.config['SQLALCHEMY_DATABASE_URI']= "sqlite:///database.db"
+engine=create_engine("sqlite:///database.db")
 db=SQLAlchemy(app)
 login_manager=LoginManager()
 login_manager.init_app(app)
