@@ -17,7 +17,7 @@ file_path = os.path.abspath(os.getcwd())+"\database.db"
 IST = pytz.timezone('Asia/Kolkata')
 
 app = Flask(__name__)
-app.secret_key=os.urandom(16)
+app.config['SECRET_KEY']=os.urandom(16)
 app.config['SQLALCHEMY_DATABASE_URI']= "sqlite:///"+file_path
 engine=create_engine("sqlite:///"+file_path)
 db=SQLAlchemy(app)
