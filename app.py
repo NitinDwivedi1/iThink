@@ -17,7 +17,7 @@ IST = pytz.timezone('Asia/Kolkata')
 
 app = Flask(__name__)
 app.config['SECRET_KEY']=os.urandom(16)
-app.config['SQLALCHEMY_DATABASE_URI']= "sqlite:///database.db"
+app.config['SQLALCHEMY_DATABASE_URI']= os.environ.get('DATABASE_URL')
 engine=create_engine("sqlite:///database.db")
 db=SQLAlchemy(app)
 login_manager=LoginManager()
