@@ -90,13 +90,13 @@ class CommentForm(FlaskForm):
 @app.route('/<pid>', methods=['GET','POST'])
 @login_required
 def index(pid=None):
-    result=db.session.execute('select p.PostCategory, p.title, p.content, p.timestamp, u.username, p.p_id from user u, post_data p where u.id=p.id order by timestamp desc')
+    result=db.session.execute('select "p.PostCategory", "p.title", "p.content", "p.timestamp", "u.username", "p.p_id" from user u, post_data p where "u.id"="p.id" order by "timestamp" desc')
     posts=[list(row) for row in result]
     form=None
     cmnts=None
 
     if pid != None:
-        ucmnts=db.session.execute('select c.comment, c.timestamp, u.username, p.p_id from post_comment c, user u, post_data p where c.p_id=p.p_id and u.id=c.id')
+        ucmnts=db.session.execute('select "c.comment", "c.timestamp", "u.username", "p.p_id" from post_comment c, user u, post_data p where "c.p_id"="p.p_id" and "u.id"="c.id" ')
         cmnts=[list(row) for row in ucmnts]
         form =CommentForm()
         if form.validate_on_submit():
@@ -106,7 +106,7 @@ def index(pid=None):
             notification=Notification(commentator=current_user.id,timestamp=func.now(IST),p_id=pid)
             db.session.add(notification)
             db.session.commit()
-            flash('Comment posted!',category='success')
+            flash("Comment posted!",category='success')
             return redirect(url_for('index'))
     return render_template("index.html",posts=posts, form=form, cmnts=cmnts,page='index',pid=pid)
 
@@ -157,7 +157,7 @@ def profile():
     profession = current_user.profession
     username = current_user.username
 
-    result = db.session.execute('select PostCategory, title, content, p_id ,timestamp from post_data  where id=:val order by timestamp desc', {'val':current_user.id})
+    result = db.session.execute('select "PostCategory", "title", "content", "p_id" ,"timestamp" from post_data  where "id"=:val order by "timestamp" desc', {'val':current_user.id})
     posts = [list(row) for row in result]
     return render_template('profile.html',fullname=fullname,
                                           email=email,
@@ -177,7 +177,7 @@ def post():
                           timestamp=func.now(IST))
         db.session.add(postData)
         db.session.commit()
-        flash("Posted!", category='success')
+        flash('Posted!', category='success')
         return redirect(url_for('index'))
     return render_template('post.html',form=form,page='post')
 
@@ -185,7 +185,7 @@ def post():
 def editInfo():
     form=UpdateForm()
     if form.validate_on_submit():
-        db.session.execute('update user set email=:val1 where id=:val2',{'val1':form.email.data,'val2':current_user.id})
+        db.session.execute('update user set "email"=:val1 where "id"=:val2',{'val1':form.email.data,'val2':current_user.id})
         db.session.commit()
         flash("Profile updated!", category='success')
         return redirect(url_for('profile'))
@@ -194,7 +194,7 @@ def editInfo():
 @app.route('/delete/<did>',methods=['GET','POST'])
 @login_required
 def deletePost(did):
-    db.session.execute('delete from post_data where p_id=:val',{'val':did})
+    db.session.execute('delete from post_data where "p_id"=:val',{'val':did})
     db.session.commit()
     flash("Post deleted!", category='success')
     return redirect(url_for('profile'))
@@ -202,8 +202,8 @@ def deletePost(did):
 @app.route('/notification', methods=['GET','POST'])
 @login_required
 def notification():
-    notifications=db.session.execute('select u.username, n.p_id, n.timestamp from user u, notification n where u.id=n.commentator order by timestamp desc')
+    notifications=db.session.execute('select "u.username", "n.p_id", "n.timestamp" from user u, notification n where "u.id"="n.commentator" order by "timestamp" desc')
     notifications = [list(row) for row in notifications]
-    userPosts = db.session.execute('select p_id from post_data where post_data.id=:val',{'val':current_user.id})
+    userPosts = db.session.execute('select "p_id" from post_data where "post_data.id"=:val',{'val':current_user.id})
     userPosts = [list(row) for row in userPosts]
     return render_template('notification.html',notifications=notifications, userPosts=userPosts,page='notification')
