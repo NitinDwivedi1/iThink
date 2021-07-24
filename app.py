@@ -27,7 +27,7 @@ class User(UserMixin, db.Model):
     id=db.Column(db.Integer, primary_key=True)
     fullname=db.Column(db.String(20))
     email=db.Column(db.String(50), unique=True)
-    dob=db.Column(db.Date)
+    dob=db.Column(db.DateTime)
     profession=db.Column(db.String(20))
     username=db.Column(db.String(20), unique=True)
     password=db.Column(db.String(80))
