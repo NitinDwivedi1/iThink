@@ -30,7 +30,7 @@ class User(UserMixin, db.Model):
     dob=db.Column(db.DateTime)
     profession=db.Column(db.String(20))
     username=db.Column(db.String(20), unique=True)
-    password=db.Column(db.String(80))
+    password=db.Column(db.String(200))
 
 class PostData(UserMixin, db.Model):
     p_id=db.Column(db.Integer, primary_key=True)
