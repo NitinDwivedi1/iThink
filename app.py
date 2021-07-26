@@ -16,7 +16,7 @@ import pytz
 
 app = Flask(__name__)
 app.config['SECRET_KEY']=os.urandom(16)
-app.config['SQLALCHEMY_DATABASE_URI']= os.environ.get('DATABASE_URL') or "postgres://ikosuoyforzdhb:98c1ec418794610d70798d5375e7bbd0c61471d6679c3868ee022a5801453aa9@ec2-23-21-4-7.compute-1.amazonaws.com:5432/ded1r6fh44amvd"
+app.config['SQLALCHEMY_DATABASE_URI']= os.environ.get('DATABASE_URL') or "postgres://jugdfikgztzyav:ff22685a6eb9b3195dafce4d68d364ec54b2798d9e24616af02221de91647b72@ec2-23-21-4-7.compute-1.amazonaws.com:5432/datk3n7r12n6rb"
 db=SQLAlchemy(app)
 login_manager=LoginManager()
 login_manager.init_app(app)
