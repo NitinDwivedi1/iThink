@@ -13,7 +13,6 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, login_
 import os
 import pytz
 
-IST = pytz.timezone('Asia/Kolkata')
 
 app = Flask(__name__)
 app.config['SECRET_KEY']=os.urandom(16)
@@ -27,7 +26,7 @@ class User(UserMixin, db.Model):
     id=db.Column(db.Integer, primary_key=True)
     fullname=db.Column(db.String(20))
     email=db.Column(db.String(50), unique=True)
-    dob=db.Column(db.DateTime)
+    dob=db.Column(db.Date)
     profession=db.Column(db.String(20))
     username=db.Column(db.String(20), unique=True)
     password=db.Column(db.String(200))
@@ -37,20 +36,20 @@ class PostData(UserMixin, db.Model):
     PostCategory=db.Column(db.String(15))
     title=db.Column(db.String(20))
     content=db.Column(db.Text)
-    timestamp = db.Column(db.DateTime(timezone=True), default=func.now(IST))
+    timestamp = db.Column(db.DateTime(timezone=True), default=func.now())
     id=db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 class PostComment(UserMixin, db.Model):
     c_id=db.Column(db.Integer, primary_key=True)
     comment=db.Column(db.Text)
-    timestamp=db.Column(db.DateTime(timezone=True), default=func.now(IST))
+    timestamp=db.Column(db.DateTime(timezone=True), default=func.now())
     id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    p_id = db.Column(db.Integer, db.ForeignKey('post_data.p_id'), nullable=False)
+    p_id = db.Column(db.Integer, db.ForeignKey('post_data.p_id',ondelete='SET NULL'), nullable=False)
 
 class Notification(UserMixin, db.Model):
     n_id=db.Column(db.Integer, primary_key=True)
     commentator=db.Column(db.Integer,nullable=False)
-    timestamp = db.Column(db.DateTime(timezone=True), default=func.now(IST))
+    timestamp = db.Column(db.DateTime(timezone=True), default=func.now())
     p_id=db.Column(db.Integer, db.ForeignKey('post_data.p_id'),nullable=False)
 
 
@@ -90,20 +89,20 @@ class CommentForm(FlaskForm):
 @app.route('/<pid>', methods=['GET','POST'])
 @login_required
 def index(pid=None):
-    result=db.session.execute('select "p.PostCategory", "p.title", "p.content", "p.timestamp", "u.username", "p.p_id" from user u, post_data p where "u.id"="p.id" order by "timestamp" desc')
+    result=db.session.execute('select p."PostCategory", p."title", p."content", p."timestamp", u."username", p."p_id" from "user" u, "post_data" p where u."id"=p."id" order by "timestamp" desc')
     posts=[list(row) for row in result]
     form=None
     cmnts=None
 
     if pid != None:
-        ucmnts=db.session.execute('select "c.comment", "c.timestamp", "u.username", "p.p_id" from post_comment c, user u, post_data p where "c.p_id"="p.p_id" and "u.id"="c.id" ')
+        ucmnts=db.session.execute('select c."comment", c."timestamp", u."username", p."p_id" from "post_comment" c, "user" u, "post_data" p where c."p_id"=p."p_id" and u."id"=c."id" ')
         cmnts=[list(row) for row in ucmnts]
         form =CommentForm()
         if form.validate_on_submit():
-            postComment=PostComment(comment=form.comment.data,timestamp=func.now(IST),id=current_user.id,p_id=pid)
+            postComment=PostComment(comment=form.comment.data,timestamp=func.now(),id=current_user.id,p_id=pid)
             db.session.add(postComment)
             db.session.commit()
-            notification=Notification(commentator=current_user.id,timestamp=func.now(IST),p_id=pid)
+            notification=Notification(commentator=current_user.id,timestamp=func.now(),p_id=pid)
             db.session.add(notification)
             db.session.commit()
             flash("Comment posted!",category='success')
@@ -157,7 +156,7 @@ def profile():
     profession = current_user.profession
     username = current_user.username
 
-    result = db.session.execute('select "PostCategory", "title", "content", "p_id" ,"timestamp" from post_data  where "id"=:val order by "timestamp" desc', {'val':current_user.id})
+    result = db.session.execute('select "PostCategory", "title", "content", "p_id" ,"timestamp" from "post_data"  where "id"=:val order by "timestamp" desc', {'val':current_user.id})
     posts = [list(row) for row in result]
     return render_template('profile.html',fullname=fullname,
                                           email=email,
@@ -174,7 +173,7 @@ def post():
                           title=form.title.data,
                           content=form.content.data,
                           id=current_user.id,
-                          timestamp=func.now(IST))
+                          timestamp=func.now())
         db.session.add(postData)
         db.session.commit()
         flash('Posted!', category='success')
@@ -185,7 +184,7 @@ def post():
 def editInfo():
     form=UpdateForm()
     if form.validate_on_submit():
-        db.session.execute('update user set "email"=:val1 where "id"=:val2',{'val1':form.email.data,'val2':current_user.id})
+        db.session.execute('update "user" set "fullname"=:val1, "email"=:val2, "dob"=:val3, "profession"=:val4 where "id"=:val5',{'val1':form.fullname.data,'val2':form.email.data,'val3':form.dob.data,'val4':form.profession.data,'val5':current_user.id})
         db.session.commit()
         flash("Profile updated!", category='success')
         return redirect(url_for('profile'))
@@ -202,8 +201,8 @@ def deletePost(did):
 @app.route('/notification', methods=['GET','POST'])
 @login_required
 def notification():
-    notifications=db.session.execute('select "u.username", "n.p_id", "n.timestamp" from user u, notification n where "u.id"="n.commentator" order by "timestamp" desc')
+    notifications=db.session.execute('select u."username", n."p_id", n."timestamp" from "user" u, "notification" n where u."id"=n."commentator" order by "timestamp" desc')
     notifications = [list(row) for row in notifications]
-    userPosts = db.session.execute('select "p_id" from post_data where "post_data.id"=:val',{'val':current_user.id})
+    userPosts = db.session.execute('select "p_id" from post_data where post_data."id"=:val',{'val':current_user.id})
     userPosts = [list(row) for row in userPosts]
     return render_template('notification.html',notifications=notifications, userPosts=userPosts,page='notification')

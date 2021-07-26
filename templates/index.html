@@ -1,6 +1,12 @@
 {% extends "MainLayout.html" %}
 {% block post %}
 
+<style>
+    .form-group label{
+        color:black;
+    }
+</style>
+
 {% if not posts %}
     <h3>Nobody posted yet!</h3>
 {% endif %}
@@ -19,7 +25,7 @@
         </div>
         <hr style="height:2px;color:gray;background-color:gray">
 
-        <button onclick="window.location.href='/{{data[5]}}'">Comments</button>
+        <button onclick="window.location.href='/{{data[5]}}'">Comments</button><br><hr>
         {%if data[5]|int==pid|int%}
             {% for cmnt in cmnts %}
                 {% if data[5]==cmnt[3] %}
@@ -31,6 +37,7 @@
                     {{ form.hidden_tag() }}
                     {{ form.comment.label }}: {{ form.comment(class_="form-control") }}
                     <button class="btn" style="background-color:skyBlue">Post</button>
+                    <br>
                 </div>
             </form>
 

@@ -1,12 +1,20 @@
 {% extends "MainLayout.html" %}
 {% block content %}
+
+{%set count=[]%}
+
 <ul class="list-group" style="margin-top:20px">
     {% for notification in notifications %}
         {%for userPost in userPosts%}
             {%if notification[1]==userPost[0]%}
                 <li style="list-style-type:none; font-size:18px;background-color:none;border-bottom:1px solid lightGray;margin-bottom:20px;padding-left:2px">{{notification[0]}} commented on your post. [{{notification[2]}}]</li>
+                {%set cnt=count.append(1)%}
             {%endif%}
         {%endfor%}
     {% endfor %}
 </ul>
+{%if not count%}
+    <h3>No notifications yet!</h3>
+{%endif%}
+
 {% endblock %}
