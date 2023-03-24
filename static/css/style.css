@@ -63,3 +63,6 @@
     font-style: italic;
     color: #6c6c6c;
 }
+#bootstrap-override .navbar .navbar-nav .active{
+    font-weight: bold;
+}

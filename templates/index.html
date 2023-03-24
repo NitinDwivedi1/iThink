@@ -15,33 +15,34 @@
     {% for data in posts %}
         <div>
             <div class='blogHeader'>
-                <span class='blogCategory'>{{data[0]}}</span>
-                <h1 class='postTitle'>{{data[1]}}</h1>
-                <span class='postedBy'>posted on {{data[3]}} by {{data[4]}}</span>
+                <span class='blogCategory'>{{data['post_category']}}</span>
+                <h1 class='postTitle'>{{data['title']}}</h1>
+                <span class='postedBy'>posted on {{data['timestamp']}} by {{data['username']}}</span>
             </div>
             <div class='postContent'>
-                <p>{{data[2]}}</p>
+                <p>{{data['content']}}</p>
             </div>
         </div>
         <hr style="height:2px;color:gray;background-color:gray">
 
-        <button onclick="window.location.href='/{{data[5]}}'">Comments</button><br><hr>
-        {%if data[5]|int==pid|int%}
-            {% for cmnt in cmnts %}
-                {% if data[5]==cmnt[3] %}
-                    <p><strong style="font-size:18px">{{cmnt[2]}}:- </strong>{{cmnt[0]}}<br><small>{{cmnt[1]}}</small></p><hr>
-                {% endif %}
-            {% endfor %}
-            <form method="post" action="/{{data[5]}}">
-                <div class="form-group">
-                    {{ form.hidden_tag() }}
-                    {{ form.comment.label }}: {{ form.comment(class_="form-control") }}
-                    <button class="btn" style="background-color:skyBlue">Post</button>
-                    <br>
-                </div>
-            </form>
+        <button onclick="window.location.href='/{{data['p_id']}}'">Comments</button><br><hr>
+            {%if data['p_id']|int==pid|int%}
+                {% for cmnt in cmnts %}
+                    {% if data['p_id']==cmnt['p_id'] %}
+                        <p><strong style="font-size:18px">{{cmnt['username']}}:- </strong>{{cmnt['comment']}}<br><small>{{cmnt['timestamp']}}</small></p><hr>
+                    {% endif %}
+                {% endfor %}
+                <form method="post" action="/{{data['p_id']}}">
+                    <div class="form-group">
+                        {{ form.hidden_tag() }}
+                        {{ form.comment.label }}: {{ form.comment(class_="form-control") }}
+                        <button class="btn" style="background-color:skyBlue">Post Comment</button>
+                        <br>
+                    </div>
+                </form>
+                <button onclick="window.location.href='/hide_cmnts/{{data['p_id']}}'">Hide Comments</button>
 
-        {%endif%}
+            {%endif%}
 
         <hr>
     {% endfor %}
@@ -64,8 +65,6 @@
                         <li class="list-inline-item"><a style="color:inherit" href="https://nitindwivedi1.github.io/" class="btn-floating btn-lg"><i class="mdi mdi-account-box"></i></a></li>
                         <li class="list-inline-item"><a style="color:inherit" href="https://github.com/NitinDwivedi1" class="btn-floating btn-lg"><i class="mdi mdi-github-box"></i></a></li>
                         <li class="list-inline-item"><a style="color:inherit" href="https://www.linkedin.com/in/nitin-dwivedi-834972192/" class="btn-floating btn-lg"><i class="mdi mdi-linkedin-box"></i></a></li>
-                        <li class="list-inline-item"><a style="color:inherit" href="https://www.instagram.com/nitin_one_and_only/" class="btn-floating btn-lg"><i class="mdi mdi-instagram"></i></a></li>
-                        <li class="list-inline-item"><a style="color:inherit" href="https://twitter.com/NitinDw46454591" class="btn-floating btn-lg"><i class="mdi mdi-twitter-box"></i></a></li>
                       </ul>
                     </div>
               </div>

@@ -29,15 +29,18 @@
 <div class='blogPostContainer' style="background-color:white;padding:10px;margin-bottom:15px">
 {% for data in posts %}
     <div class='blogHeader'>
-        <span class='blogCategory'>{{data[0]}}</span>
-        <h1 class='postTitle'>{{data[1]}}</h1>
-        <span class='postedBy'>posted on {{data[4]}}</span>
+        <span class='blogCategory'>{{data['post_category']}}</span>
+        <h1 class='postTitle'>{{data['title']}}</h1>
+        <span class='postedBy'>posted on {{data['timestamp']}}</span>
     </div>
     <div class='postContent'>
-        <p>{{data[2]}}</p>
+        <p>{{data['content']}}</p>
     </div>
+
+
+
     <div style="justify-content:center;display:flex">
-        <button onclick="window.location.href='{{url_for('.deletePost',did=data[3])}}'" class="btn btn raised" style="background-color:skyBlue;color:black">Delete</button>
+        <button onclick="window.location.href='{{url_for('.deletePost',did=data['p_id'])}}'" class="btn btn raised" style="background-color:skyBlue;color:black">Delete</button>
     </div>
     <hr>
 {% endfor %}
